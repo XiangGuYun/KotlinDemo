@@ -34,5 +34,12 @@ interface ViewUtils {
         return this
     }
 
+    fun View.child(childId:Int,isGroup:Boolean=false):View{
+        return if(!isGroup)
+            findViewById(childId)
+        else
+            findViewById<ViewGroup>(childId)
+    }
+
 
 }

@@ -20,20 +20,24 @@ interface StringUtils {
     /*
     打印日志
     */
-    fun String.logd(tag:String=""){
+    fun Any.logd(tag:String=""){
         val defTag:String = if(!tag.isEmpty())
             tag
         else
             "def"
-        Log.d(defTag, this)
+        Log.d(defTag, this.toString())
     }
 
-    fun String.loge(tag:String=""){
+    fun Any.loge(tag:String=""){
         val defTag:String = if(!tag.isEmpty())
             tag
         else
             "def"
-        Log.e(defTag, this)
+        Log.e(defTag, this.toString())
+    }
+
+    fun Any.header(header:String):String{
+        return "$header${this}"
     }
     
     /*

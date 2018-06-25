@@ -5,5 +5,6 @@ import android.os.Environment
 import java.io.File
 
 interface CommonUtils {
-
+    val Context.SDPATH: String
+        get() = Environment.getExternalStorageDirectory().toString()
 }

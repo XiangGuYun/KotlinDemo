@@ -1,33 +1,27 @@
 package com.kotlindemo.base
 
-import android.app.Activity
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
-import android.os.Environment
-import android.support.v7.app.AppCompatActivity
+import android.support.v4.app.Fragment
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.WindowManager
 import android.widget.Toast
-import com.kotlindemo.base.utils.*
 import com.kotlindemo.base.utils.DensityUtils.Companion.dip2px
 import com.kotlindemo.base.utils.DensityUtils.Companion.px2dip
 import com.kotlindemo.base.utils.DensityUtils.Companion.px2sp
 import com.kotlindemo.base.utils.DensityUtils.Companion.sp2px
 
+open abstract class KotlinFragment: Fragment(),BaseInterface {
 
-abstract class KotlinActivity : AppCompatActivity(),BaseInterface{
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         var viewInject = this::class.annotations[0] as LayoutId
-        setContentView(viewInject.id)
-        init(savedInstanceState)
+        var view = inflater?.inflate(viewInject.id,container,false)
+        init(view)
+        return view
     }
 
-
-    protected abstract fun init(bundle: Bundle?)
+    abstract fun init(view:View?)
 
     /**
      * 土司提示
@@ -35,10 +29,10 @@ abstract class KotlinActivity : AppCompatActivity(),BaseInterface{
      */
     fun Any.tst(isLong: Boolean=false){
         if(isLong)
-            Toast.makeText(this@KotlinActivity,this.toString(),
+            Toast.makeText(activity,this.toString(),
                     Toast.LENGTH_SHORT).show()
         else
-            Toast.makeText(this@KotlinActivity,this.toString(),
+            Toast.makeText(activity,this.toString(),
                     Toast.LENGTH_LONG).show()
     }
 
@@ -46,19 +40,19 @@ abstract class KotlinActivity : AppCompatActivity(),BaseInterface{
      * 尺寸单位转换
      */
     fun Number.px2dp():Int{
-        return px2dip(this@KotlinActivity,this.toFloat())
+        return px2dip(activity,this.toFloat())
     }
 
     fun Number.dp2px():Int{
-        return dip2px(this@KotlinActivity,this.toFloat())
+        return dip2px(activity,this.toFloat())
     }
 
     fun Number.sp():Int{
-        return px2sp(this@KotlinActivity,this.toFloat())
+        return px2sp(activity,this.toFloat())
     }
 
     fun Number.px():Int{
-        return sp2px(this@KotlinActivity,this.toFloat())
+        return sp2px(activity,this.toFloat())
     }
 
     /**
@@ -73,17 +67,10 @@ abstract class KotlinActivity : AppCompatActivity(),BaseInterface{
     }
 
 
-    /**
-     * Activity类扩展
-     */
-    fun Activity.go(cls:Class<Activity>,bundle: Bundle= Bundle()){
-        startActivity(Intent(this,cls).putExtras(bundle))
-    }
-
     override fun onLayoutChange(v: View?, left: Int, top: Int, right: Int, bottom: Int, oldLeft: Int, oldTop: Int, oldRight: Int, oldBottom: Int) {
         // old是改变前的左上右下坐标点值，没有old的是改变后的左上右下坐标点值
         // 现在认为只要控件将Activity向上推的高度超过了1/5屏幕高，就认为软键盘弹起
-        val keyHeight = this.windowManager.defaultDisplay.height / 5
+        val keyHeight = activity.windowManager.defaultDisplay.height / 5
         // 阀值设置为屏幕高度的1/5
         if (oldBottom != 0 && bottom != 0 && oldBottom - bottom > keyHeight) {
             // 监听到软键盘弹起
@@ -102,6 +89,5 @@ abstract class KotlinActivity : AppCompatActivity(),BaseInterface{
     protected fun onKeyboardShow() {
 
     }
-
 
 }
