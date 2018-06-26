@@ -1,5 +1,6 @@
 package com.kotlindemo
 
+import com.kotlindemo.study.Test
 import org.junit.Test
 
 import org.junit.Assert.*

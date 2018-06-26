@@ -1,6 +1,7 @@
 package com.kotlindemo.base.utils
 
 import android.bluetooth.BluetoothA2dp
+import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Path
@@ -68,6 +69,31 @@ interface PaintUtils {
 
     fun Path.line_to(x:Number,y:Number):Path{
         lineTo(x.toFloat(),y.toFloat())
+        return this
+    }
+
+    fun Paint.isFakeBoldText(bool:Boolean):Paint{
+        isFakeBoldText = bool
+        return this
+    }
+
+    fun Path.closePath(): Path {
+        close()
+        return this
+    }
+
+    fun Canvas.draw_path(path:Path,paint:Paint): Canvas {
+        drawPath(path,paint)
+        return this
+    }
+
+    fun <T:Number> Canvas.draw_text(text:String,x:T,y:T,paint:Paint): Canvas {
+        drawText(text,x.toFloat(), y.toFloat(), paint)
+        return this
+    }
+
+    fun <T:Number> Canvas.draw_line(x:T,y:T,x1:T,y1:T,paint:Paint): Canvas {
+        drawLine(x.toFloat(), y.toFloat(), x1.toFloat(), y1.toFloat(), paint)
         return this
     }
 

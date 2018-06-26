@@ -1,6 +1,8 @@
 package com.kotlindemo.base.utils
 
+import android.content.res.TypedArray
 import android.graphics.drawable.Drawable
+import android.util.AttributeSet
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
@@ -41,5 +43,12 @@ interface ViewUtils {
             findViewById<ViewGroup>(childId)
     }
 
+    fun View.getTypeArray(styleId:IntArray,attr:AttributeSet):TypedArray{
+        return context.obtainStyledAttributes(attr,styleId)
+    }
+
+    fun View.getTypeArray(styleId:IntArray):TypedArray{
+        return context.obtainStyledAttributes(styleId)
+    }
 
 }
