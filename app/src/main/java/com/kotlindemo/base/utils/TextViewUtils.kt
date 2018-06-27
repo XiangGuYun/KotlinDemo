@@ -11,22 +11,22 @@ interface TextViewUtils {
         return this
     }
 
-    fun TextView.color(color:Int): TextView {
+    fun <T:TextView> T.color(color:Int): T {
         setTextColor(color)
         return this
     }
 
-    fun TextView.color(color:String): TextView {
+    fun <T:TextView> T.color(color:String): T {
         setTextColor(Color.parseColor(color))
         return this
     }
 
-    fun TextView.size(size:Int): TextView {
+    fun <T:TextView> T.size(size:Int): T {
         textSize = size.toFloat()
         return this
     }
 
-    fun TextView.html(text:String):TextView{
+    fun <T:TextView> T.html(text:String):T{
         setText(Html.fromHtml(text))
         return this
     }

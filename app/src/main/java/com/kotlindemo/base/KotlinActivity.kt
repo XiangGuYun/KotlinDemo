@@ -16,7 +16,10 @@ import com.kotlindemo.base.utils.DensityUtils.Companion.px2dip
 import com.kotlindemo.base.utils.DensityUtils.Companion.px2sp
 import com.kotlindemo.base.utils.DensityUtils.Companion.sp2px
 
-
+/**
+ * i want to create a strongest activity for base-using, so you can
+ * write codes simply and gracefully as far as possible.
+ */
 abstract class KotlinActivity : AppCompatActivity(),BaseInterface{
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -24,8 +27,19 @@ abstract class KotlinActivity : AppCompatActivity(),BaseInterface{
         var viewInject = this::class.annotations[0] as LayoutId
         setContentView(viewInject.id)
         init(savedInstanceState)
+        actList.add(this)
     }
 
+    companion object {
+        //this list store all child activities
+        var actList = ArrayList<Activity>()
+    }
+
+
+    override fun onDestroy() {
+        actList.remove(this)
+        super.onDestroy()
+    }
 
     protected abstract fun init(bundle: Bundle?)
 
@@ -33,7 +47,7 @@ abstract class KotlinActivity : AppCompatActivity(),BaseInterface{
      * 土司提示
      * @param isLong 是否显示更长时间
      */
-    fun Any.tst(isLong: Boolean=false){
+    fun Any.toast(isLong: Boolean=false){
         if(isLong)
             Toast.makeText(this@KotlinActivity,this.toString(),
                     Toast.LENGTH_SHORT).show()

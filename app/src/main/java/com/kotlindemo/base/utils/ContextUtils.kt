@@ -8,6 +8,8 @@ import android.view.LayoutInflater
 
 interface ContextUtils {
 
+
+
     val Context.inflater: LayoutInflater get()=LayoutInflater.from(this)
 
     fun FragmentActivity.fragUtils(frag: Fragment, rootId:Int=ResUtils.getId(this,"root")):FragmentUtils{
